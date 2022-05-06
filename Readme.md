@@ -8,7 +8,7 @@ Skip any part if you have it already:
 First go ahead and create an account on https://windscribe.com/ Your VirtualMachine will use this VPN to view AdFly pages from different IPs. Also verify your account for total of 10 GB data per month<br><br>
 Secondly download and install python https://www.python.org/ftp/python/3.9.7/python-3.9.7-amd64.exe and Oracle VirtualBox https://download.virtualbox.org/virtualbox/6.1.34/VirtualBox-6.1.34-150636-Win.exe if you don't have it already (leave all options during installing as default, doesn't matter)<br><br>
 Thirdly download the user_login.py file from this repository and run it. This file is your way to create your own account in my server, you need to add your AdFly IDs via this file, the AdFly IDs added to your account in my server are the ones your VirtualMachines will view.<br><br>
-AdFly ID refers to the number in your AdFly referral code for e.g. for some with referral code https://join-adf.ly/654321 their ID is 654321 
+AdFly ID refers to the number in your AdFly referral code for e.g. for some with referral code https://join-adf.ly/654321 their ID is 654321 <br><br>
 Lastly download the latest version of VirtualMachine from this Group (Join the Google group, download the VM and leave the group). https://groups.google.com/g/adfly-client-vm <br><br>
 Once all your AdFly IDs are added, you are done, just add the Virtual_machine to VirtualBox, start it, open WindScribe VPN (it will be preinstalled) and login with the account you created earlier, also you will find a minimised script running, click on it and add your Username (as created in my Server). Now restart the VirtualMachine and forget about it. It will work perpetually, all updates required to the code are done directly by my Server.
 
