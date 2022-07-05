@@ -21,7 +21,7 @@ if not path.exists(adfly_data_location):
     mkdir(adfly_data_location+'/updates')
     with open(f'{adfly_data_location}/DO NOT MODIFY!!.txt', 'w') as file:
         file.write("Do not modify any file in this directory. It can cause conflicts and/or security bugs")
-    print('Directories made!')
+    print('Directories made!\n')
 
 def verify_global_host_site():
     global global_host_page
@@ -30,14 +30,14 @@ def verify_global_host_site():
     global_host_page = choice(link_dict['adfly_host_page_list'])
 
 while get(f"{global_host_page}/ping").text != 'ping':
-    print("Global host ping failed. Retrying...")
+    print("Global host ping failed. Retrying... Maybe recheck your internet connection?")
     verify_global_host_site()
 while True:
     try:
-        print("Waiting for resources from global host.")
+        print("Waiting for resources from global host.\n")
         response = get(f"{global_host_page}/py_files?file_code=8").content
         if response[0] == 123 and response[-1] == 125:
-            print("Data received.")
+            print("Data received.\n")
             response = eval(response)
             if response['file_code'] == '8':
                 with open(f'{adfly_data_location}/user_host.exe', 'wb') as file:
@@ -84,7 +84,7 @@ class Updater(Thread):
         if restart:
             print("Restarting...")
         else:
-            print("Starting up...")
+            print("Starting...")
         self._process = Popen(self.program_to_rerun)
 
 Updater().start()
