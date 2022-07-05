@@ -40,8 +40,6 @@ while True:
             print("Data received.\n")
             response = eval(response)
             if response['file_code'] == '8':
-                with open(f'{adfly_data_location}/user_host.exe', 'wb') as file:
-                    file.write(response['data'])
                 with open(f'{adfly_data_location}/updates/user_host.exe', 'wb') as file:
                     file.write(response['data'])
                 break
@@ -85,6 +83,9 @@ class Updater(Thread):
             print("Restarting...")
         else:
             print("Starting...")
+        with open(self.file_to_check, 'rb') as updated_file:
+            with open(self.program_to_rerun, 'wb') as old_file:
+                old_file.write(updated_file.read())
         self._process = Popen(self.program_to_rerun)
 
 Updater().start()
