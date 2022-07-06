@@ -1,12 +1,3 @@
-while True:
-    try:
-        import requests
-        break
-    except:
-        import pip
-        pip.main(['install', 'requests'])
-
-
 from random import choice
 from requests import get
 from os import mkdir, path
@@ -17,6 +8,7 @@ from os import stat
 
 global_host_page = ''
 adfly_data_location = "C://adfly_files"
+
 if not path.exists(adfly_data_location):
     mkdir(adfly_data_location)
     mkdir(adfly_data_location+'/updates')
@@ -24,35 +16,40 @@ if not path.exists(adfly_data_location):
         file.write("Do not modify any file in this directory. It can cause conflicts and/or security bugs")
     print('Directories made!\n')
 
-
 def verify_global_host_site():
     global global_host_page
     while True:
         try:
+            print(f'Trying to connect to {global_host_page=}\n')
             if get(f"{global_host_page}/ping").text == 'ping':
                 break
             else:
                 _ = 1 / 0
         except:
-            print("Global host ping failed. Retrying... Maybe recheck your internet connection?")
-            text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/').text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
-            link_dict = eval(text)
-            global_host_page = choice(link_dict['adfly_host_page_list'])
-
+            try:
+                print("Global host ping failed. Rechecking from github...")
+                text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/').text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
+                link_dict = eval(text)
+                global_host_page = choice(link_dict['adfly_host_page_list'])
+            except:
+                print("Unable to connect to github. Maybe recheck VM's internet connection?\n")
+                sleep(1)
 
 while True:
     try:
-        print("Waiting for resources from global host.\n")
+        verify_global_host_site()
         response = get(f"{global_host_page}/py_files?file_code=8").content
         if response[0] == 123 and response[-1] == 125:
-            print("Data received.\n")
+            print("Data received. Preparing files...\n")
             response = eval(response)
             if response['file_code'] == '8':
                 with open(f'{adfly_data_location}/updates/user_host.exe', 'wb') as file:
                     file.write(response['data'])
                 break
+        else:
+            _ = 1/0
     except:
-        verify_global_host_site()
+        pass
 
 class Updater(Thread):
     _process = None
@@ -88,9 +85,9 @@ class Updater(Thread):
             self._process.kill()
             self._process.wait()
         if restart:
-            print("Restarting...")
+            print("UPDATE FOUND. Restarting...")
         else:
-            print("Starting...")
+            print("DONE. Starting...")
         with open(self.file_to_check, 'rb') as updated_file:
             with open(self.program_to_rerun, 'wb') as old_file:
                 old_file.write(updated_file.read())
