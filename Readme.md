@@ -54,11 +54,11 @@ Want to use your Device for the whole day, and you want the bots to work only fo
 <h3>Some Advanced Stuff:</h3>
 * Go slow or you might get banned by AdFly. <br>
 Yes you can run several copies of the VM and run them all together, this will scale up your Earning.
-But there is a chance that your AdFly account might get banned for using this bot at a fast rate. Go slow, take your time, Run lesser number of VMs initially, find what is the best rate for you, then gradually increase if you want to.
-* Don't blame me if any AdFly account gets banned<br>
+But there is a chance that your AdFly account might get banned for using this bot at a fast rate. Go slow, take your time, Run lesser number of VMs initially, find what is the best rate for you, then gradually increase if you want to. <br><br>
+* Don't blame me if any AdFly account gets banned
 ***Remember If your AdFly ID gets banned, its withdrawal email gets frozen (You can't add that withdrawal email to a new AdFly account) so always bind disposable AdFly accounts to this bot*** <br>
-Create fake AdFly IDs to use with this bot, accounts that won't cause problems if banned. AdFly allows account creation with disposable emails https://www.emailondeck.com/ and https://www.mohmal.com/en
-* This bot is still in its Beta phase. <br>
-Meaning there are still bugs, issues, and thus need lots of improvements, maybe you incur a bug, some unexpected behaviour, kindly report it as soon as possible, This bot is always open for suggestions, new ideas or fixes.
+Create fake AdFly IDs to use with this bot, accounts that won't cause problems if banned. AdFly allows account creation with disposable emails https://www.emailondeck.com/ and https://www.mohmal.com/en <br><br>
+* This bot is still in its Beta phase.
+Meaning there are still bugs, issues, and thus need lots of improvements, maybe you incur a bug, some unexpected behaviour, kindly report it as soon as possible, This bot is always open for suggestions, new ideas or fixes.<br><br>
 * Multiple VMs can be run at the same time.
 The code I made is extremely efficient, and you can run multiple VMs at once. To do so, either download a fresher copy of VM from Google link, or you can clone the VM ***before logging into WindScribe***, if you clone after login, it might cause problems because of same account active in 2 devices. Same Username(of my server) can however be used in multiple VMs.
