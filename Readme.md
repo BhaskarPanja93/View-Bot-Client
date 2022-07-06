@@ -10,7 +10,7 @@ Skip any part if you have it already:
 <br>
 First go ahead and create an account on <a href=https://windscribe.com/> Windscribe</a> Your VirtualMachine will use this VPN to view AdFly pages from different IPs. Also verify your account for total of 10 GB data per month
 <br><br>
-Second download `user_host_main.exe` file from <a href=https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases/tag/(v0.0.0)> Here </a> and run it. 
+Second download the latest version of `user_host_main.exe` file from <a href=https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases> Here </a> and run it. 
 This file is important and must be run in the same Computer which has all the Virtual Machines.
 <br><br>
 Once the user_host_main file starts working, it will open a new tab in your browser <a href=http://127.0.0.1:59999>`http://127.0.0.1:59999`</a>, you need to Login in this webpage or Create a new account. Later when you login with the same account, you will be able to control your account and the VMs in that Computer.

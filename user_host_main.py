@@ -14,7 +14,8 @@ from subprocess import Popen
 from time import sleep
 from threading import Thread
 from os import stat
-global_host_page = 'http://10.10.77.118:65500'
+
+global_host_page = ''
 adfly_data_location = "C://adfly_files"
 if not path.exists(adfly_data_location):
     mkdir(adfly_data_location)
@@ -23,15 +24,22 @@ if not path.exists(adfly_data_location):
         file.write("Do not modify any file in this directory. It can cause conflicts and/or security bugs")
     print('Directories made!\n')
 
+
 def verify_global_host_site():
     global global_host_page
-    text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/').text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
-    link_dict = eval(text)
-    global_host_page = choice(link_dict['adfly_host_page_list'])
+    while True:
+        try:
+            if get(f"{global_host_page}/ping").text == 'ping':
+                break
+            else:
+                _ = 1 / 0
+        except:
+            print("Global host ping failed. Retrying... Maybe recheck your internet connection?")
+            text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/').text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
+            link_dict = eval(text)
+            global_host_page = choice(link_dict['adfly_host_page_list'])
 
-while get(f"{global_host_page}/ping").text != 'ping':
-    print("Global host ping failed. Retrying... Maybe recheck your internet connection?")
-    verify_global_host_site()
+
 while True:
     try:
         print("Waiting for resources from global host.\n")
@@ -44,7 +52,7 @@ while True:
                     file.write(response['data'])
                 break
     except:
-        pass
+        verify_global_host_site()
 
 class Updater(Thread):
     _process = None
