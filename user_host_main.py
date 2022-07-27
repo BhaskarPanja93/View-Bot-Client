@@ -1,9 +1,10 @@
+user_host_main_version = '2.3.1'
+
 from random import choice
 from requests import get
 from time import sleep
 from os import makedirs, path, system as system_caller
 
-user_host_main_version = '2.1.1'
 global_page = ''
 
 def verify_global_site():
@@ -11,14 +12,14 @@ def verify_global_site():
     while True:
         try:
             print(f'Trying to connect to global_page at {global_page}')
-            if get(f"{global_page}/ping", timeout=5).text == 'ping':
+            if get(f"{global_page}/ping", timeout=10).text == 'ping':
                 break
             else:
                 _ = 1 / 0
         except:
             try:
                 print("Global host ping failed. Rechecking from github...")
-                text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/', timeout=5).text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
+                text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/', timeout=10).text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
                 link_dict = eval(text)
                 global_page = choice(link_dict['adfly_host_page_list'])
             except:
@@ -32,7 +33,7 @@ print("Checking user host main version...\n\n")
 while True:
     verify_global_site()
     try:
-        current_version = get(f"{global_page}/current_user_host_main_version", timeout=5).text
+        current_version = get(f"{global_page}/current_user_host_main_version", timeout=10).text
         if current_version == user_host_main_version:
             break
         else:
@@ -78,16 +79,18 @@ if not path.exists(live_location) or not path.exists(updates_location):
 system_caller('cls')
 print('Checking user_host version...\n\n')
 print('This can take a while...\n\n')
+
+verify_global_site()
+try:
+    with open(f'{live_location}/version', 'r') as version_info_file:
+        version = float(version_info_file.read())
+except:
+    open(f'{live_location}/version', 'w').write('0')
+    version = 0.0
+
 while True:
-    verify_global_site()
     try:
-        with open(f'{live_location}/version', 'r') as version_info_file:
-            version = float(version_info_file.read())
-    except:
-        open(f'{live_location}/version', 'w').write('0')
-        version = 0.0
-    try:
-        response = get(f"{global_page}/other_files?file_code=8&version={version}", timeout=10).content
+        response = get(f"{global_page}/other_files?file_code=8&version={version}", timeout=25).content
         if response[0] == 123 and response[-1] == 125:
             print("Data received. Preparing files...")
             response = eval(response)
