@@ -40,9 +40,10 @@ while True:
             current_version_split = current_version.split('.')
             version_split = user_host_main_version.split('.')
             if version_split[0] == current_version_split[0]:
-                print(f"An optional update is available. v{current_version}")
-                sleep(5)
-                break
+                if version_split[1] != current_version_split[1]:
+                    print(f"An optional update is available. v{current_version}")
+                    sleep(5)
+                    break
             else:
                 print(f"User Host Main is too old to run. Please update to v{current_version} to continue!! https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
                 input()
@@ -90,7 +91,7 @@ except:
 
 while True:
     try:
-        response = get(f"{global_page}/other_files?file_code=8&version={version}", timeout=25).content
+        response = get(f"{global_page}/other_files?file_code=stable_user_host&version={version}", timeout=30).content
         if response[0] == 123 and response[-1] == 125:
             print("Data received. Preparing files...")
             response = eval(response)
