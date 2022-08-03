@@ -1,4 +1,4 @@
-user_host_main_version = '2.3.1'
+user_host_main_version = '2.4.3'
 
 from random import choice
 from requests import get
@@ -11,7 +11,7 @@ def verify_global_site():
     global global_page
     while True:
         try:
-            print(f'Trying to connect to global_page at {global_page}')
+            print(f'\n\nExpected global page : {global_page}')
             if get(f"{global_page}/ping", timeout=10).text == 'ping':
                 break
             else:
@@ -29,10 +29,10 @@ def verify_global_site():
 
 ## Check self version
 system_caller('cls')
-print("Checking user host main version...\n\n")
 while True:
     verify_global_site()
     try:
+        print("\n\nChecking user host main version...")
         current_version = get(f"{global_page}/current_user_host_main_version", timeout=10).text
         if current_version == user_host_main_version:
             break
@@ -41,19 +41,22 @@ while True:
             version_split = user_host_main_version.split('.')
             if version_split[0] == current_version_split[0]:
                 if version_split[1] != current_version_split[1]:
+                    print(f"An recommended update is available. v{current_version}. Please download from github for important patches.\n https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
+                    sleep(5)
+                else:
                     print(f"An optional update is available. v{current_version}")
                     sleep(5)
-                    break
+                break
             else:
-                print(f"User Host Main is too old to run. Please update to v{current_version} to continue!! https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
+                print(f"User Host Main is too old to run. Please update to v{current_version} to continue!!\n https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
                 input()
                 exit()
     except:
-        pass
+        print("Retrying...")
 
 ### Check local drive to use
 system_caller('cls')
-print('Checking directories...\n\n')
+print('\n\nChecking directories...')
 local_drive_name = 'C'
 if not path.exists(f"{local_drive_name}://"):
     for _ascii in range(67, 90 + 1):
@@ -78,9 +81,6 @@ if not path.exists(live_location) or not path.exists(updates_location):
 
 ### check user_host version
 system_caller('cls')
-print('Checking user_host version...\n\n')
-print('This can take a while...\n\n')
-
 verify_global_site()
 try:
     with open(f'{live_location}/version', 'r') as version_info_file:
@@ -91,11 +91,15 @@ except:
 
 while True:
     try:
-        response = get(f"{global_page}/other_files?file_code=stable_user_host&version={version}", timeout=30).content
+        print('\n\nChecking user_host version...')
+        print('This can take a while...')
+        file_code = 'stable_user_host'
+        response = get(f"{global_page}/other_files?file_code={file_code}&version={version}", timeout=30).content
         if response[0] == 123 and response[-1] == 125:
-            print("Data received. Preparing files...")
+            system_caller('cls')
+            print("\n\nData received.")
             response = eval(response)
-            if response['file_code'] == '8':
+            if response['file_code'] == file_code:
                 if response['version'] != version:
                     print("Writing new file")
                     with open(f'{live_location}/user_host.exe', 'wb') as file:
@@ -103,7 +107,8 @@ while True:
                     with open(f'{live_location}/version', 'w') as file:
                         file.write(str(response['version']))
                 else:
-                    print("No new Updates")
+                    system_caller('cls')
+                    print("\n\nNo new Updates")
                 break
             else:
                 _ = 1 / 0
