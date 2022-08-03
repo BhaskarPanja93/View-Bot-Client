@@ -1,4 +1,4 @@
-user_host_main_version = '2.4.3'
+user_host_main_version = '2.4.2'
 
 from random import choice
 from requests import get
