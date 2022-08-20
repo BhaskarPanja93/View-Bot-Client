@@ -22,9 +22,7 @@ This link can be accessed from any device in your network.
 <br><br>
 Lastly download the latest version of any type from this link:
 <br>
-<a href=https://drive.google.com/drive/folders/1eUJCvPI7ajW-glkfeven32wZIqVbLec-> Main Link </a>
-<br>
-<a href=https://drive.google.com/drive/u/1/folders/1NkeeOpS331xjpRGR0chNRB9U7siA0Y1z> Backup Link </a>
+<a href=https://drive.google.com/drive/u/9/folders/1I0IRnmOS9Ko-mrg8TYxRJM7L-Cg0kEpb> Main Link </a>
 <br>
 <hr style="border:2px solid gray">
 <h3> Some notations: </h3>
