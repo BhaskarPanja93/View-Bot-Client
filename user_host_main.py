@@ -1,7 +1,5 @@
-from threading import Thread
-
 user_host_main_version = '2.5.0'
-
+from threading import Thread
 from random import choice
 from requests import get
 from time import sleep
