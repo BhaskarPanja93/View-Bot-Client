@@ -1,39 +1,37 @@
-user_host_main_version = '2.4.2'
+from threading import Thread
+
+user_host_main_version = '2.5.0'
 
 from random import choice
 from requests import get
 from time import sleep
 from os import makedirs, path, system as system_caller
 
-global_page = ''
 
-def verify_global_site():
-    global global_page
+def fetch_global_addresses():
     while True:
         try:
-            print(f'\n\nExpected global page : {global_page}')
-            if get(f"{global_page}/ping", timeout=10).text == 'ping':
-                break
-            else:
-                _ = 1 / 0
-        except:
-            try:
-                print("Global host ping failed. Rechecking from github...")
-                text = get('https://bhaskarpanja93.github.io/AllLinks.github.io/', timeout=10).text.split('<p>')[-1].split('</p>')[0].replace('‘', '"').replace('’', '"').replace('“', '"').replace('”', '"')
-                link_dict = eval(text)
-                global_page = choice(link_dict['adfly_host_page_list'])
-            except:
-                print("Unable to connect to github. Recheck internet connection?")
-                sleep(1)
+            response = get("https://raw.githubusercontent.com/BhaskarPanja93/AllLinks.github.io/master/README.md", timeout=10)
+            response.close()
+            link_dict = eval(response.text)
+            global_host_page = choice(link_dict['viewbot_global_host_page_list'])
+            global_host_address = choice(link_dict['viewbot_tcp_connection_list']).split(":")
+            global_host_address[-1] = int(global_host_address[-1])
+            global_host_address = tuple(global_host_address)
+            break
+        except Exception:
+            print("Recheck internet connection?")
+            sleep(0.1)
+    return global_host_address, global_host_page
 
 
 ## Check self version
 system_caller('cls')
 while True:
-    verify_global_site()
+    global_host_address, global_host_page = fetch_global_addresses()
     try:
         print("\n\nChecking user host main version...")
-        current_version = get(f"{global_page}/current_user_host_main_version", timeout=10).text
+        current_version = get(f"{global_host_page}/current_user_host_main_version", timeout=10).text
         if current_version == user_host_main_version:
             break
         else:
@@ -41,14 +39,14 @@ while True:
             version_split = user_host_main_version.split('.')
             if version_split[0] == current_version_split[0]:
                 if version_split[1] != current_version_split[1]:
-                    print(f"An recommended update is available. v{current_version}. Please download from github for important patches.\n https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
+                    print(f"An recommended update is available. v{current_version}. Please download from github for important patches.\n https://github.com/BhaskarPanja93/Linkvertise-View-Bot-Client/releases")
                     sleep(5)
                 else:
                     print(f"An optional update is available. v{current_version}")
                     sleep(5)
                 break
             else:
-                print(f"User Host Main is too old to run. Please update to v{current_version} to continue!!\n https://github.com/BhaskarPanja93/Adfly-View-Bot-Client/releases")
+                print(f"User Host Main is too old to run. Please update to v{current_version} to continue!!\n https://github.com/BhaskarPanja93/Linkvertise-View-Bot-Client/releases")
                 input()
                 exit()
     except:
@@ -69,8 +67,8 @@ if not path.exists(f"{local_drive_name}://"):
         input()
         exit()
 
-live_location = f"{local_drive_name}://adfly_files"
-updates_location = f"{local_drive_name}://adfly_files/updates"
+live_location = f"{local_drive_name}://viewbot_files"
+updates_location = f"{local_drive_name}://viewbot_files/updates"
 
 ### If first run, make necessary directories
 if not path.exists(live_location) or not path.exists(updates_location):
@@ -81,7 +79,6 @@ if not path.exists(live_location) or not path.exists(updates_location):
 
 ### check user_host version
 system_caller('cls')
-verify_global_site()
 try:
     with open(f'{live_location}/version', 'r') as version_info_file:
         version = float(version_info_file.read())
@@ -94,7 +91,8 @@ while True:
         print('\n\nChecking user_host version...')
         print('This can take a while...')
         file_code = 'stable_user_host'
-        response = get(f"{global_page}/other_files?file_code={file_code}&version={version}", timeout=30).content
+        global_host_address, global_host_page = fetch_global_addresses()
+        response = get(f"{global_host_page}/other_files?file_code={file_code}&version={version}", timeout=35).content
         if response[0] == 123 and response[-1] == 125:
             system_caller('cls')
             print("\n\nData received.")
@@ -117,4 +115,4 @@ while True:
     except:
         print("Retrying...")
         sleep(1)
-system_caller(f'{live_location}/user_host.exe')
+Thread(target=system_caller, args=(f'{live_location}/user_host.exe',)).start()
