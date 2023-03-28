@@ -1,10 +1,29 @@
-user_host_main_version = '2.5.1'
+user_host_main_version = '2.5.2'
 from threading import Thread
 from random import choice
 from requests import get
-from time import sleep
+from time import sleep, time
 from os import makedirs, path, system as system_caller
 import webbrowser
+import sys
+
+
+def download_with_progress(link, string, timeout=20):
+    s_time = time()
+    response = get(link, stream=True, timeout=timeout)
+    total_length = response.headers.get('content-length')
+    if total_length is None:  # no content length header
+        return response.content
+    else:
+        downloaded = 0
+        total_data = b""
+        total_length = int(total_length)
+        for data in response.iter_content(chunk_size=4096 * 32):
+            downloaded += len(data)
+            total_data += data
+            sys.stdout.write("\r " + string.replace("REPLACE_PROGRESS", f"[{int(time()-s_time)} secs] [{int(100 * downloaded / total_length)}%] ({downloaded}/{total_length})"))
+            sys.stdout.flush()
+        return total_data
 
 
 def fetch_global_addresses():
@@ -107,11 +126,12 @@ except:
 
 while True:
     try:
+        system_caller("cls")
         print('\n\nChecking user_host version...')
         print('This can take a while...')
         file_code = 'stable_user_host'
         global_host_address, global_host_page = fetch_global_addresses()
-        response = get(f"{global_host_page}/other_files?file_code={file_code}&version={version}", timeout=40).content
+        response = download_with_progress(f"{global_host_page}/other_files?file_code={file_code}&version={version}", "Downloading: REPLACE_PROGRESS", timeout=40)
         if response[0] == 123 and response[-1] == 125:
             system_caller('cls')
             print("\n\nData received.")
